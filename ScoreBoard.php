@@ -3,7 +3,7 @@ require('./Player.php');
 class ScoreBoard
 {
     // properies
-    public array $Score = [];
+    private array $Score = [];
     private $Players = [];
     public int $Round;
 
@@ -28,10 +28,8 @@ class ScoreBoard
     private function calculatePlayerScore($Players)
     {
         //Vanuit Player class. Opbouwen Ass Array van spelernaam en iedere gegooide ronden.
-        $Score = $this->Score;
         $Round = $this->Round;
         $Player = $Players;
-        $Score = [];
         //loop door score en tel punten op
 
         for ($p = 0; $p < count($Player); $p++) {
@@ -40,11 +38,10 @@ class ScoreBoard
             foreach ($Player[$p]["Game"] as $GameArray => $keys) {
                 $Points +=  ($keys["First"] + $keys["Second"]);
             }
-            array_push($Score, ["Name" => $Name, "Points" => $Points]);
+            array_push($this->Score, ["Name" => $Name, "Points" => $Points]);
         }
 
         //UPDATE score
-        $this->Score = $Score;
         $this->calculateAllScores($Player);
     }
 
@@ -60,173 +57,37 @@ class ScoreBoard
         // Als er in laatste ronden spare of strike of in voorlaatste strike : extra worpen gooien       
 
         for ($p = 0; $p < count($Player); $p++) {
-
             $Name = $Player[$p]["Name"];
             //UPDATE score with bonus
             switch ($Round) {
-
+                case 0:
+                        break;
                 case 1:
-                    echo "TEST " . $Score[$p]["Points"] . PHP_EOL;
                     if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
                         $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
+                        $this->Score[$p]["Points"] +=  $BonusPoints;
                     } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
                         $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
+                        $this->Score[$p]["Points"] +=  $BonusPoints;
                     }
 
-                    $this->Score = $Score;
                     break;
-
-                case 2:
+                    
+                default:
                     if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
                         $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
+                        $this->Score[$p]["Points"] +=  $BonusPoints;
                     } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
                         $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
+                        $this->Score[$p]["Points"] +=  $BonusPoints;
                     } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
                         $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
+                        $this->Score[$p]["Points"] +=  $BonusPoints;
                     }
-
-                    $this->Score = $Score;
-                    break;
-
-                case 3:
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-                    $this->Score = $Score;
-                    break;
-                case 4:
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-                    $this->Score = $Score;
-
-                    break;
-                case 5:
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-                    $this->Score = $Score;
-
-                    break;
-                case 6:
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-                    $this->Score = $Score;
-
-                    break;
-                case 7:
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-                    $this->Score = $Score;
-
-                    break;
-
-                case 8: //penultimate ROUND OF GAME//
-
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-                    $this->Score = $Score;
-
-                    break;
-
-                case 9: //LAST ROUND OF GAME Extra rounds needed
-                    if ($Player[$p]["Game"][$PrevRound]["Spare"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    } elseif ($Player[$p]["Game"][$PenRound]["Strike"] == true) {
-                        $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                        $Score[$p]["Points"] +=  $BonusPoints;
-                    }
-
-
-                    if ($Player[$p]["Game"][$Round]["Spare"] == true) {
-                        echo "Speler $Name gooit een SPARE in ronde $Round ! Voer 1 extra ronde in!\n" . PHP_EOL;
-                    } elseif ($Player[$p]["Game"][$PrevRound]["Strike"] == true) {
-                        echo "Speler $Name gooit een STRIKE in ronde $PrevRound ! Voer 1 extra ronde in!\n" . PHP_EOL;
-                    } elseif ($Player[$p]["Game"][$Round]["Strike"] == true) {
-                        echo "Speler $Name gooit een STRIKE in ronde $Round ! Voer 2 extra ronde in!\n" . PHP_EOL;
-                    }
-
-                    $this->Score = $Score;
-                    break;
-                case 10: //BONUS ROUND 1 //
-
-                    $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                    $Score[$p]["Points"] +=  $BonusPoints;
- 
-                    $this->Score = $Score;
-
-                    break;
-                case 11: //BONUS ROUND 2 //
-
-                    $BonusPoints = ($Player[$p]["Game"][$Round]["First"] + $Player[$p]["Game"][$Round]["Second"]);
-                    $Score[$p]["Points"] +=  $BonusPoints;
-
-                    $this->Score = $Score;
 
                     break;
             }
         }
-        $this->Score = $Score;
     }
     public function displayScores()
     {
@@ -239,10 +100,8 @@ class ScoreBoard
         echo "----------------------------------------" . PHP_EOL;
         $width2 = "| %-19.16s |       %-8.10s |\n";
         for ($p = 0; $p < count($Score); $p++) {
-
             $Name = $Score[$p]["Name"];
             $Points = $Score[$p]["Points"];
-
             printf($width2, $Name, $Points);
         }
         echo "|_____________________|________________|" . PHP_EOL;
@@ -267,7 +126,7 @@ class ScoreBoard
         }
 
         for ($i = 0; $i < count($Winner); $i++) {
-            echo ">>     Winnaar is " . $Winner[$i]  . PHP_EOL;
+            echo ">>  De winnaar is " . $Winner[$i]  . PHP_EOL;
         }
     }
 }
